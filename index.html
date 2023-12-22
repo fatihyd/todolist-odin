@@ -29,6 +29,40 @@
 
         <div id="main-container"></div>
     </div>
+
+    <dialog>
+        <div id="modal-grid-container">
+            <div id="sidebar-modal">
+                <button id="todo-button">to do</button>
+                <button id="project-button">project</button>
+            </div>
+
+            <div id="main-modal-container">
+                <form action="" id="add-todo-form">
+                    <input type="text" id="title-input" name="title" placeholder="Title">
+                    <input type="text" id="description-input" name="description" placeholder="Description">
+                    <label for="duedate-input">Due date:</label>
+                    <input type="date" id="duedate-input" name="date">
+                    <div id="priority-radio-container">
+                        <input type="radio" id="priority-choice-1" name="priority" value="low" />
+                        <label for="priority-choice-1">LOW</label>
+
+                        <input type="radio" id="priority-choice-2" name="priority" value="medium" />
+                        <label for="priority-choice-2">MEDIUM</label>
+
+                        <input type="radio" id="priority-choice-3" name="priority" value="high" />
+                        <label for="priority-choice-3">HIGH</label>
+                    </div>
+                    <button type="submit" class="submit-button" autofocus>add</button>
+                </form>
+
+                <form action="" id="add-project-form">
+                    <input type="text" id="project-title-input" name="project-title" placeholder="Project Title">
+                    <button type="submit" class="submit-button" autofocus>add</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
 </body>
 
 </html>
