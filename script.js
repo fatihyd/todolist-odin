@@ -29,6 +29,12 @@ document.addEventListener("click", function (event) {
         submitTodoHandler();
     } else if (event.target.id === "submit-project-button") {
         submitProjectHandler();
+    } else if (event.target.id === "sidebar-todo-button") {
+        addProjectForm.style.display = "none";
+        addTodoForm.style.display = "flex";
+    } else if (event.target.id === "sidebar-project-button") {
+        addTodoForm.style.display = "none";
+        addProjectForm.style.display = "flex";
     }
 })
 
@@ -43,6 +49,10 @@ function addButtonHandler() {
 
     // prevents page refresh  
     document.querySelector("#add-todo-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+    })
+
+    document.querySelector("#add-project-form").addEventListener("submit", function (event) {
         event.preventDefault();
     })
 }
@@ -64,22 +74,44 @@ function submitTodoHandler() {
     mainContainer.appendChild(newTodoContainer);
 }
 
-function submitProjectHandler() { }
+function submitProjectHandler() {
+    let projectsList = document.querySelector("#projects-list");
+    let projectTitleInput = document.querySelector("#project-title-input").value;
+    let newProjectElement = document.createElement("li");
+    let newProjectButton = document.createElement("button");
+    newProjectButton.textContent = projectTitleInput;
+    newProjectElement.appendChild(newProjectButton);
+    projectsList.appendChild(newProjectElement);
+
+    // resets the form  
+    document.querySelector("#add-project-form").reset();
+    // closes the dialog and adds the book to the DOM  
+    dialog.close();
+}
 
 function createTodoContainer(todo) {
     let todoContainer = document.createElement("div");
+    todoContainer.classList.add("todo-container");
+
+    let mainElements = document.createElement("span");
 
     let checkboxElement = document.createElement("input");
     checkboxElement.type = "checkbox";
 
     let titleElement = document.createElement("p");
-    titleElement.textContent = "title: " + todo.title;
+    titleElement.textContent = todo.title;
+
+    mainElements.append(checkboxElement, titleElement);
+
+    let extraElements = document.createElement("span");
 
     let descriptionElement = document.createElement("p");
-    descriptionElement.textContent = "description: " + todo.description;
+    descriptionElement.textContent = "=> " + todo.description;
 
     let dueDateElement = document.createElement("p");
-    dueDateElement.textContent = todo.dueDate;
+    dueDateElement.textContent = "due: " + todo.dueDate;
+
+    extraElements.append(descriptionElement, dueDateElement);
 
     let priorityElement = todo.priority;
     let priorityColor;
@@ -88,6 +120,6 @@ function createTodoContainer(todo) {
     else if (priorityElement === "high") { priorityColor = "red" }
     todoContainer.style.border = `2px solid ${priorityColor}`;
 
-    todoContainer.append(checkboxElement, titleElement, descriptionElement, dueDateElement);
+    todoContainer.append(mainElements, extraElements);
     return todoContainer;
 }

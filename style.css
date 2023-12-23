@@ -151,3 +151,36 @@ dialog {
     background-color: red;
     border-color: red;
 }
+
+/* todos */
+#main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.todo-container {
+    display: flex;
+    width: 50%;
+    margin: 24px;
+    padding: 12px;
+    justify-content: space-between;
+    font-size: large;
+    border-radius: 20px;
+}
+
+.todo-container span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.todo-container span:nth-child(2) {
+    display: block;
+}
+
+.todo-container input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin: 16px;
+}

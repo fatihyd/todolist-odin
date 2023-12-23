@@ -19,7 +19,7 @@
                 <ul>
                     <li><button id="home-button">home</button></li>
                     <li><button id="projects-button">projects</button>
-                        <ul id="projects"></ul>
+                        <ul id="projects-list"></ul>
                     </li>
                 </ul>
             </div>
@@ -33,8 +33,8 @@
     <dialog>
         <div id="modal-grid-container">
             <div id="sidebar-modal">
-                <button id="todo-button">to do</button>
-                <button id="project-button">project</button>
+                <button id="sidebar-todo-button">to do</button>
+                <button id="sidebar-project-button">project</button>
             </div>
 
             <div id="main-modal-container">
@@ -58,7 +58,7 @@
 
                 <form action="" id="add-project-form">
                     <input type="text" id="project-title-input" name="project-title" placeholder="Project Title">
-                    <button type="submit" class="submit-project-button" autofocus>add</button>
+                    <button type="submit" id="submit-project-button" autofocus>add</button>
                 </form>
             </div>
         </div>
