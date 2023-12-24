@@ -50,7 +50,10 @@ document.addEventListener("click", function (event) {
         currentView = "project";
         currentProject = event.target.textContent;
         loadProject(currentProject);
+    } else if (event.target.classList.contains("remove-todo-button")) {
+        removeTodoHandler(event);
     }
+
 })
 
 // loads the Home page
@@ -83,9 +86,11 @@ function createTodoItem() {
     return new Todo(titleInput, descriptionInput, dueDateInput, priorityInput, projectInput);
 }
 // creates and returns a todo container
-function createTodoContainer(todo) {
+function createTodoContainer(todo, index) {
     let todoContainer = document.createElement("div");
     todoContainer.classList.add("todo-container");
+
+    todoContainer.setAttribute("data-index", index);
 
     let mainElements = document.createElement("span");
 
@@ -105,7 +110,11 @@ function createTodoContainer(todo) {
     let dueDateElement = document.createElement("p");
     dueDateElement.textContent = "due: " + todo.dueDate;
 
-    extraElements.append(descriptionElement, dueDateElement);
+    let removeButton = document.createElement("button");
+    removeButton.classList.add("remove-todo-button");
+    removeButton.textContent = "REMOVE";
+
+    extraElements.append(descriptionElement, dueDateElement, removeButton);
 
     let priorityElement = todo.priority;
     let priorityColor;
@@ -136,7 +145,7 @@ function submitTodoHandler() {
     let newTodo = createTodoItem();
     allTodos.push(newTodo);
 
-    let newTodoContainer = createTodoContainer(newTodo);
+    let newTodoContainer = createTodoContainer(newTodo, allTodos.indexOf(newTodo));
     // resets the form  
     document.querySelector("#add-todo-form").reset();
     // closes the dialog and adds the book to the DOM  
@@ -176,4 +185,20 @@ function submitProjectHandler() {
     document.querySelector("#add-project-form").reset();
     // closes the dialog and adds the book to the DOM  
     dialog.close();
+}
+
+function removeTodoHandler(event) {
+    const todoContainer = event.target.parentNode.parentNode;
+    const index = parseInt(todoContainer.dataset.index);  // Use parseInt to convert to a number
+
+    // Remove the todoContainer from the DOM
+    todoContainer.remove();
+
+    // Remove the todo from the allTodos array
+    allTodos.splice(index, 1);
+
+    // Update the data-index attributes of all the remaining todos
+    for (let i = 0; i < allTodos.length; i++) {
+        allTodos[i].todoContainer.dataset.index = i;
+    }
 }
