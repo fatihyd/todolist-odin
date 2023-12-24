@@ -54,18 +54,8 @@ document.addEventListener("click", function (event) {
     } else if (event.target.classList.contains("remove-todo-button")) {
         removeTodoHandler(event);
     } else if (event.target.type === "checkbox") {
-        let todoContainer = event.target.parentNode.parentNode;
-        let todoObject = allTodos[parseInt(todoContainer.dataset.index)];
-
-        if (todoObject.checked) {
-            todoObject.checked = false;
-            todoContainer.style.textDecoration = "";
-        } else {
-            todoObject.checked = true;
-            todoContainer.style.textDecoration = "line-through";
-        }
+        checkboxHandler(event);
     }
-
 })
 
 // loads the Home page
@@ -211,4 +201,17 @@ function removeTodoHandler(event) {
 
     // Remove the todo from the allTodos array
     allTodos.splice(index, 1);
+}
+
+function checkboxHandler(event) {
+    let todoContainer = event.target.parentNode.parentNode;
+    let todoObject = allTodos[parseInt(todoContainer.dataset.index)];
+
+    if (todoObject.checked) {
+        todoObject.checked = false;
+        todoContainer.style.textDecoration = "";
+    } else {
+        todoObject.checked = true;
+        todoContainer.style.textDecoration = "line-through";
+    }
 }
