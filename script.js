@@ -6,6 +6,7 @@ class Todo {
         this.dueDate = dueDate;
         this.priority = priority;
         this.project = project;
+        this.checked = false;
     }
 }
 // global variables
@@ -52,6 +53,17 @@ document.addEventListener("click", function (event) {
         loadProject(currentProject);
     } else if (event.target.classList.contains("remove-todo-button")) {
         removeTodoHandler(event);
+    } else if (event.target.type === "checkbox") {
+        let todoContainer = event.target.parentNode.parentNode;
+        let todoObject = allTodos[parseInt(todoContainer.dataset.index)];
+
+        if (todoObject.checked) {
+            todoObject.checked = false;
+            todoContainer.style.textDecoration = "";
+        } else {
+            todoObject.checked = true;
+            todoContainer.style.textDecoration = "line-through";
+        }
     }
 
 })
@@ -61,7 +73,7 @@ function loadHome() {
     mainContainer.innerHTML = "";
 
     for (let i = 0; i < allTodos.length; i++) {
-        mainContainer.appendChild(createTodoContainer(allTodos[i]));
+        mainContainer.appendChild(createTodoContainer(allTodos[i], i));
     }
 }
 // loads the Project page
@@ -70,7 +82,7 @@ function loadProject(projectTitle) {
 
     for (let i = 0; i < allTodos.length; i++) {
         if (allTodos[i].project === projectTitle) {
-            mainContainer.appendChild(createTodoContainer(allTodos[i]))
+            mainContainer.appendChild(createTodoContainer(allTodos[i], i));
         }
     }
 }
@@ -123,6 +135,10 @@ function createTodoContainer(todo, index) {
     else if (priorityElement === "high") { priorityColor = "red" }
     todoContainer.style.border = `2px solid ${priorityColor}`;
 
+    if (todo.checked) {
+        todoContainer.style.textDecoration = "line-through";
+    }
+
     todoContainer.append(mainElements, extraElements);
     return todoContainer;
 }
@@ -145,8 +161,7 @@ function submitTodoHandler() {
     let newTodo = createTodoItem();
     allTodos.push(newTodo);
 
-    let newTodoContainer = createTodoContainer(newTodo, allTodos.indexOf(newTodo));
-    // resets the form  
+    // resets the form
     document.querySelector("#add-todo-form").reset();
     // closes the dialog and adds the book to the DOM  
     dialog.close();
@@ -196,9 +211,4 @@ function removeTodoHandler(event) {
 
     // Remove the todo from the allTodos array
     allTodos.splice(index, 1);
-
-    // Update the data-index attributes of all the remaining todos
-    for (let i = 0; i < allTodos.length; i++) {
-        allTodos[i].todoContainer.dataset.index = i;
-    }
 }
