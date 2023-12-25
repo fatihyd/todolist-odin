@@ -10,8 +10,8 @@ class Todo {
     }
 }
 // global variables
-let allTodos = [];
-let allProjects = [];
+let storedTodos = JSON.parse(localStorage.getItem("todos")) ?? [];
+let storedProjects = JSON.parse(localStorage.getItem("projects")) ?? [];
 let currentView = "none";
 let currentProject;
 // elements already in the DOM
@@ -62,18 +62,33 @@ document.addEventListener("click", function (event) {
 function loadHome() {
     mainContainer.innerHTML = "";
 
-    for (let i = 0; i < allTodos.length; i++) {
-        mainContainer.appendChild(createTodoContainer(allTodos[i], i));
+    // Check if there are todos in localStorage
+    if (storedTodos && storedTodos.length > 0) {
+        // Display todos on the home page
+        for (let i = 0; i < storedTodos.length; i++) {
+            mainContainer.appendChild(createTodoContainer(storedTodos[i], i));
+        }
+    } else {
+        // Handle the case where there are no todos
+        mainContainer.textContent = "No todos available.";
     }
 }
+
 // loads the Project page
 function loadProject(projectTitle) {
     mainContainer.innerHTML = "";
 
-    for (let i = 0; i < allTodos.length; i++) {
-        if (allTodos[i].project === projectTitle) {
-            mainContainer.appendChild(createTodoContainer(allTodos[i], i));
+    // Check if there are todos in localStorage
+    if (storedTodos && storedTodos.length > 0) {
+        // Display todos on the project page
+        for (let i = 0; i < storedTodos.length; i++) {
+            if (storedTodos[i].project === projectTitle) {
+                mainContainer.appendChild(createTodoContainer(storedTodos[i], i));
+            }
         }
+    } else {
+        // Handle the case where there are no todos in the project
+        mainContainer.textContent = "No todos available.";
     }
 }
 
@@ -126,6 +141,7 @@ function createTodoContainer(todo, index) {
     todoContainer.style.border = `2px solid ${priorityColor}`;
 
     if (todo.checked) {
+        checkboxElement.checked = true;
         todoContainer.style.textDecoration = "line-through";
     }
 
@@ -149,7 +165,9 @@ function addButtonHandler() {
 // add todo button in the modal
 function submitTodoHandler() {
     let newTodo = createTodoItem();
-    allTodos.push(newTodo);
+    storedTodos.push(newTodo);
+    //
+    localStorage.setItem("todos", JSON.stringify(storedTodos));
 
     // resets the form
     document.querySelector("#add-todo-form").reset();
@@ -164,32 +182,40 @@ function submitTodoHandler() {
 }
 // add project button in the modal
 function submitProjectHandler() {
-    let projectsList = document.querySelector("#projects-list");
     let projectTitleInput = document.querySelector("#project-title-input").value;
-    let newProjectElement = document.createElement("li");
-    newProjectElement.classList.add("project");
-    newProjectElement.id = projectTitleInput;
 
-    let newProjectButton = document.createElement("button");
-    newProjectButton.textContent = projectTitleInput;
-    newProjectElement.appendChild(newProjectButton);
-    projectsList.appendChild(newProjectElement);
+    addProjectToDOM(projectTitleInput);
+    storedProjects.push(projectTitleInput);
+    //
+    localStorage.setItem("projects", JSON.stringify(storedProjects));
 
-    allProjects.push(projectTitleInput);
 
-    let newProjectRadio = document.createElement("input");
-    newProjectRadio.type = "radio";
-    newProjectRadio.id = "projects-choice-" + (allProjects.length + 2);
-    newProjectRadio.name = "project";
-    newProjectRadio.value = projectTitleInput;
-    let newProjectRadioLabel = document.createElement("label");
-    newProjectRadioLabel.setAttribute("for", newProjectRadio.id);
-    newProjectRadioLabel.textContent = projectTitleInput;
-    projectsRadioContainer.append(newProjectRadio, newProjectRadioLabel);
     // resets the form  
     document.querySelector("#add-project-form").reset();
     // closes the dialog and adds the book to the DOM  
     dialog.close();
+}
+
+function addProjectToDOM(projectTitle) {
+    let projectsList = document.querySelector("#projects-list");
+    let newProjectElement = document.createElement("li");
+    newProjectElement.classList.add("project");
+    newProjectElement.id = projectTitle;
+
+    let newProjectButton = document.createElement("button");
+    newProjectButton.textContent = projectTitle;
+    newProjectElement.appendChild(newProjectButton);
+    projectsList.appendChild(newProjectElement);
+
+    let newProjectRadio = document.createElement("input");
+    newProjectRadio.type = "radio";
+    newProjectRadio.id = "projects-choice-" + (storedProjects.length + 2);
+    newProjectRadio.name = "project";
+    newProjectRadio.value = projectTitle;
+    let newProjectRadioLabel = document.createElement("label");
+    newProjectRadioLabel.setAttribute("for", newProjectRadio.id);
+    newProjectRadioLabel.textContent = projectTitle;
+    projectsRadioContainer.append(newProjectRadio, newProjectRadioLabel);
 }
 
 function removeTodoHandler(event) {
@@ -200,12 +226,14 @@ function removeTodoHandler(event) {
     todoContainer.remove();
 
     // Remove the todo from the allTodos array
-    allTodos.splice(index, 1);
+    storedTodos.splice(index, 1);
+    //
+    localStorage.setItem("todos", JSON.stringify(storedTodos));
 }
 
 function checkboxHandler(event) {
     let todoContainer = event.target.parentNode.parentNode;
-    let todoObject = allTodos[parseInt(todoContainer.dataset.index)];
+    let todoObject = storedTodos[parseInt(todoContainer.dataset.index)];
 
     if (todoObject.checked) {
         todoObject.checked = false;
@@ -213,5 +241,20 @@ function checkboxHandler(event) {
     } else {
         todoObject.checked = true;
         todoContainer.style.textDecoration = "line-through";
+    }
+    //
+    localStorage.setItem("todos", JSON.stringify(storedTodos));
+}
+
+// load page for the first time
+if (currentView === "none") {
+    loadHome();
+}
+
+if (storedProjects && storedProjects.length > 0) {
+    for (let i = 0; i < storedProjects.length; i++) {
+        if (storedProjects[i] !== "none") {
+            addProjectToDOM(storedProjects[i]);
+        }
     }
 }
