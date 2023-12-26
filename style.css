@@ -1,0 +1,186 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100wh;
+}
+
+header {
+    background-color: #092635;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+#grid-container {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    height: 100%;
+}
+
+#sidebar {
+    background-color: #5C8374;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#main-container {
+    background-color: #9EC8B9;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    appearance: button;
+    background-color: #000;
+    background-image: none;
+    border: 1px solid #000;
+    border-radius: 4px;
+    box-shadow: #fff 4px 4px 0 0, #000 4px 4px 0 1px;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: ITCAvantGardeStd-Bk, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    margin: 0 5px 10px 0;
+    overflow: visible;
+    padding: 12px 40px;
+    text-align: center;
+    text-transform: none;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    margin: 24px;
+    font-weight: bold;
+}
+
+button:active {
+    box-shadow: rgba(0, 0, 0, .125) 0 3px 5px inset;
+    outline: 0;
+}
+
+button:not([disabled]):active {
+    box-shadow: #fff 2px 2px 0 0, #000 2px 2px 0 1px;
+    transform: translate(2px, 2px);
+}
+
+#add-button {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    font-size: 64px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* modal */
+dialog {
+    padding: 0;
+}
+
+#modal-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+#sidebar-modal {
+    background-color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#main-modal-container form {
+    display: flex;
+    flex-direction: column;
+    margin: 24px;
+}
+
+#main-modal-container form input {
+    margin: 16px;
+}
+
+#main-modal-container form input[type="text"] {
+    border: none;
+    outline: none;
+    border-bottom: 1px solid lightgray;
+}
+
+::backdrop {
+    background-color: black;
+    opacity: 0.5;
+}
+
+/* radio buttons */
+#priority-radio-container input[type="radio"] {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+}
+
+#priority-radio-container label {
+    display: inline-block;
+    background-color: lightgray;
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+#priority-radio-container input[value="low"]:checked+label {
+    background-color: green;
+    border-color: green;
+}
+
+#priority-radio-container input[value="medium"]:checked+label {
+    background-color: yellow;
+    border-color: yellow;
+}
+
+#priority-radio-container input[value="high"]:checked+label {
+    background-color: red;
+    border-color: red;
+}
+
+/* todos */
+#main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.todo-container {
+    display: flex;
+    width: 50%;
+    margin: 24px;
+    padding: 12px;
+    justify-content: space-between;
+    font-size: large;
+    border-radius: 20px;
+}
+
+.todo-container span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.todo-container span:nth-child(2) {
+    display: block;
+}
+
+.todo-container input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin: 16px;
+}

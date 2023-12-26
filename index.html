@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoApp</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>todo list</h1>
+    </header>
+    <div id="grid-container">
+        <div id="sidebar">
+            <div id="sidebar-list">
+                <ul>
+                    <li><button id="home-button">home</button></li>
+                    <li><button id="projects-button">projects</button>
+                        <ul id="projects-list"></ul>
+                    </li>
+                </ul>
+            </div>
+
+            <button id="add-button">+</button>
+        </div>
+
+        <div id="main-container"></div>
+    </div>
+
+    <dialog>
+        <div id="modal-grid-container">
+            <div id="sidebar-modal">
+                <button id="sidebar-todo-button">to do</button>
+                <button id="sidebar-project-button">project</button>
+            </div>
+
+            <div id="main-modal-container">
+                <form action="" id="add-todo-form">
+                    <input type="text" id="title-input" name="title" placeholder="Title">
+                    <input type="text" id="description-input" name="description" placeholder="Description">
+                    <label for="duedate-input">Due date:</label>
+                    <input type="date" id="duedate-input" name="date">
+                    <div id="priority-radio-container">
+                        <input type="radio" id="priority-choice-1" name="priority" value="low" />
+                        <label for="priority-choice-1">LOW</label>
+
+                        <input type="radio" id="priority-choice-2" name="priority" value="medium" />
+                        <label for="priority-choice-2">MEDIUM</label>
+
+                        <input type="radio" id="priority-choice-3" name="priority" value="high" />
+                        <label for="priority-choice-3">HIGH</label>
+                    </div>
+                    <div id="projects-radio-container">
+                        <input type="radio" id="projects-choice-1" name="project" value="none" />
+                        <label for="projects-choice-1">none</label>
+                    </div>
+                    <button type="submit" id="submit-todo-button" autofocus>add</button>
+                </form>
+
+                <form action="" id="add-project-form">
+                    <input type="text" id="project-title-input" name="project-title" placeholder="Project Title">
+                    <button type="submit" id="submit-project-button" autofocus>add</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+</body>
+
+</html>
