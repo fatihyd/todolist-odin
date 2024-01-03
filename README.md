@@ -1,5 +1,4 @@
-# todolist
+# TOP Javascript
+## Project #4 (Todo List)
 
-## what to work on:
-
-=> expand a single todo to see/edit its details
+https://www.theodinproject.com/lessons/node-path-javascript-todo-list
